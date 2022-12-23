@@ -11,8 +11,7 @@ using namespace std;
 
 HWND hKeyboard[27];
 HWND hLastKey = NULL;
-HWND hStart;
-HWND hText, hMiss, hTime, hChar_c, hProg, hProc;
+HWND hStart, hText, hMiss, hProg, hProc;
 TCHAR text[255], buffer_s[255];
 fstream words;
 string s_buf;
@@ -55,7 +54,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         hText = GetDlgItem(hwnd, IDC_EDIT1);
         hMiss = GetDlgItem(hwnd, IDC_EDIT2);
         hProg = GetDlgItem(hwnd, IDC_PROGRESS1);
-        hProc = GetDlgItem(hwnd, IDC_EDIT5);
+        hProc = GetDlgItem(hwnd, IDC_EDIT3);
         SendMessage(hProg, PBM_SETRANGE, 0, MAKELPARAM(0, 100));
         SendMessage(hProg, PBM_SETPOS, 0, 100);
         break;
@@ -68,7 +67,6 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
             SetWindowText(hText, text);
             SetWindowText(hMiss, TEXT("0"));
             SetWindowText(hProc, TEXT("0"));
-            SetWindowText(hChar_c, buffer_s);
             EnableWindow(hStart, FALSE);
         }
         break;
@@ -87,7 +85,6 @@ void KeyDownHandler(HWND hwnd, WPARAM wParam, LPARAM lParam)
     int num_key = 65;
     int vkey = (TCHAR)wParam;
     WCHAR str[50];
-    wsprintf(str, L"vkey: %c", vkey);
     
     for (int i = 0; num_key <= 90; i++, num_key++)
     {
@@ -130,7 +127,7 @@ void KeyDownHandler(HWND hwnd, WPARAM wParam, LPARAM lParam)
         EnableWindow(hText, TRUE);
         SetFocus(hText);
         int result = count_ - mistake;
-        wsprintf(buffer_s, TEXT("Кол-во правильных клавиш = %d / %d"), result, count_);
+        wsprintf(buffer_s, TEXT("Correct keys = %d / %d"), result, count_);
         SetWindowText(hwnd, buffer_s);
     }
 }
